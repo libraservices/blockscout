@@ -1,5 +1,5 @@
 defmodule BlockScoutWeb.ViewingAddressesTest do
-  use BlockScoutWeb.FeatureCase, async: true
+  use BlockScoutWeb.FeatureCase
 
   alias BlockScoutWeb.{AddressPage, AddressView, Notifier}
 
