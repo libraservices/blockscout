@@ -52,18 +52,25 @@ defmodule BlockScoutWeb.API.RPC.TransactionView do
 
   defp prepare_transaction(transaction, max_block_number, logs) do
     %{
-      "hash" => "#{transaction.hash}",
-      "timeStamp" => "#{DateTime.to_unix(transaction.block.timestamp)}",
       "blockNumber" => "#{transaction.block_number}",
-      "confirmations" => "#{max_block_number - transaction.block_number}",
-      "success" => if(transaction.status == :ok, do: true, else: false),
+      "timeStamp" => "#{DateTime.to_unix(transaction.block.timestamp)}",
+      "hash" => "#{transaction.hash}",
+      "nonce" => "#{transaction.nonce}",
+      "blockHash" => "#{transaction.block_hash}",
+      "transactionIndex" => "#{transaction.index}",
       "from" => "#{transaction.from_address_hash}",
       "to" => "#{transaction.to_address_hash}",
       "value" => "#{transaction.value.value}",
-      "input" => "#{transaction.input}",
-      "gasLimit" => "#{transaction.gas}",
+      "gas" => "#{transaction.gas}",
+      "gasPrice" => "#{transaction.gas_price.value}",
       "gasUsed" => "#{transaction.gas_used}",
-      "logs" => Enum.map(logs, &prepare_log/1)
+      "cumulativeGasUsed" => "#{transaction.cumulative_gas_used}",
+      "isError" => if(transaction.status == :ok, do: false, else: true),
+      "txreceipt_status" => if(transaction.status == :ok, do: "1", else: "0"),
+      "input" => "#{transaction.input}",
+      "contractAddress" => "#{transaction.created_contract_address_hash}",
+      "logs" => Enum.map(logs, &prepare_log/1),
+      "confirmations" => "#{max_block_number - transaction.block_number}"
     }
   end
 
